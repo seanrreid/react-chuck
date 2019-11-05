@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { loadData } from "../utils/loadData";
 
 class Quote extends Component {
     state = {
@@ -9,15 +10,10 @@ class Quote extends Component {
         this.renderQuote();
     }
 
-    loadData = async () => {
-        const url = "https://api.chucknorris.io/jokes/random?category=dev";
-        const response = await fetch(url);
-        const data = response.json();
-        return data;
-    };
-
     renderQuote = async () => {
-        const response = await this.loadData();
+        const response = await loadData(
+            "https://api.chucknorris.io/jokes/random?category=dev"
+        );
         const quote = response.value;
         this.setState({
             quote
