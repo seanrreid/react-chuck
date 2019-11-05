@@ -3,17 +3,29 @@ import { loadData } from "../utils/loadData";
 
 class Quote extends Component {
     state = {
-        category: "dev",
-        quote: "Fetching Quote..."
+        quote: "Fetching quote..."
     };
 
     async componentDidMount() {
-        this.renderQuote();
+        const { category } = this.props;
+
+        this.setState({
+            category
+        });
+
+        this.renderQuote(category);
     }
 
-    renderQuote = async () => {
-        const { category } = this.state;
+    componentDidUpdate(prevProps) {
+        if (this.props.category !== prevProps.category) {
+            this.setState({
+                category: this.props.category
+            });
+            this.renderQuote(this.props.category);
+        }
+    }
 
+    renderQuote = async category => {
         const response = await loadData(
             `https://api.chucknorris.io/jokes/random?category=${category}`
         );
@@ -24,17 +36,18 @@ class Quote extends Component {
     };
 
     refreshQuote = () => {
-        this.renderQuote();
+        const { category } = this.state;
+        this.renderQuote(category);
     };
 
     render() {
-        const { quote } = this.state;
+        const { quote, category } = this.state;
 
         return (
             <>
                 <p>{quote}</p>
                 <button onClick={() => this.refreshQuote()}>
-                    Refresh Quote
+                    Get another quote from the {category} category
                 </button>
             </>
         );
