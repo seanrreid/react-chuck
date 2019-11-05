@@ -3,6 +3,7 @@ import { loadData } from "../utils/loadData";
 
 class Quote extends Component {
     state = {
+        category: "dev",
         quote: "Fetching Quote..."
     };
 
@@ -11,8 +12,10 @@ class Quote extends Component {
     }
 
     renderQuote = async () => {
+        const { category } = this.state;
+
         const response = await loadData(
-            "https://api.chucknorris.io/jokes/random?category=dev"
+            `https://api.chucknorris.io/jokes/random?category=${category}`
         );
         const quote = response.value;
         this.setState({
