@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { loadData } from "../utils/loadData";
 
 class CategoryList extends Component {
@@ -20,33 +21,19 @@ class CategoryList extends Component {
         });
     };
 
-    handleChange = event => {
-        this.props.changeCategory(event.target.value);
-    };
-
     render() {
         const { categories } = this.state;
-        const { activeCategory } = this.props;
 
         return (
-            <label>
-                Change Category
-                <select onChange={this.handleChange}>
-                    {categories.map((category, id) => {
-                        return (
-                            <option
-                                key={`category-${id}`}
-                                value={category}
-                                selected={
-                                    category == activeCategory ? true : false
-                                }
-                            >
-                                {category}
-                            </option>
-                        );
-                    })}
-                </select>
-            </label>
+            <ul>
+                {categories.map((category, id) => {
+                    return (
+                        <li key={`category-${id}`}>
+                            <Link to={`/category/${category}`}>{category}</Link>
+                        </li>
+                    );
+                })}
+            </ul>
         );
     }
 }

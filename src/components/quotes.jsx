@@ -7,22 +7,14 @@ class Quote extends Component {
     };
 
     async componentDidMount() {
-        const { category } = this.props;
+        const category = this.props.match.params.quote_category;
+        console.log("this.props ", this.props);
 
         this.setState({
             category
         });
 
         this.renderQuote(category);
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.category !== prevProps.category) {
-            this.setState({
-                category: this.props.category
-            });
-            this.renderQuote(this.props.category);
-        }
     }
 
     renderQuote = async category => {
